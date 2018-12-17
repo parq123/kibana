@@ -15,12 +15,19 @@ function getProxyHeaders(req) {
   const headers = {};
 
   if (req.info.remotePort && req.info.remoteAddress) {
+
     // see https://git.io/vytQ7
     extendCommaList(headers, 'x-forwarded-for', req.info.remoteAddress);
     extendCommaList(headers, 'x-forwarded-port', req.info.remotePort);
     extendCommaList(headers, 'x-forwarded-proto', req.connection.info.protocol);
     extendCommaList(headers, 'x-forwarded-host', req.info.host);
+    extendCommaList(headers, 'xuser', req.auth.credentials.sid);
+    extendCommaList(headers, 'xusersk', req.auth.credentials.pwd);
+
   }
+
+  req.headers.xuser = req.auth.credentials.sid;
+  req.headers.xusersk = req.auth.credentials.pwd;
 
   const contentType = req.headers['content-type'];
   if (contentType) {
@@ -79,6 +86,8 @@ export const createProxyRoute = ({
         agent,
         headers,
       } = getConfigForReq(req, uri);
+
+      // headers["xuser"] = "finally ......... ttA6"
 
       const wreckOptions = {
         payload,

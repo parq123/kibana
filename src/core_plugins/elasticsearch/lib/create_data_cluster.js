@@ -4,6 +4,9 @@ export function createDataCluster(server) {
   const config = server.config();
   const ElasticsearchClientLogging = clientLogger(server);
 
+  // console.log(server.getAllUiApps);
+  // console.log("=========================0");
+
   class DataClientLogging extends ElasticsearchClientLogging {
     tags = ['data'];
     logQueries = getConfig().logQueries;

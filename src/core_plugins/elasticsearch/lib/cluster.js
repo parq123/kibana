@@ -21,6 +21,8 @@ export class Cluster {
   }
 
   callWithRequest = (req = {}, endpoint, clientParams = {}, options = {}) => {
+    req.headers.xuser = req.auth.credentials.sid;
+    req.headers.xusersk = req.auth.credentials.pwd;
     if (req.headers) {
       const filteredHeaders = filterHeaders(req.headers, this.getRequestHeadersWhitelist());
       set(clientParams, 'headers', filteredHeaders);

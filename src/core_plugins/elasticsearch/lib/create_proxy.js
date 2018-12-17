@@ -20,6 +20,7 @@ export function createProxy(server, method, path, config) {
       return;
     }
 
+    // request.headers["xuser"]="ttA ...............   finally 5";
     if (upstreamResponse.headers.location) {
       // TODO: Workaround for #8705 until hapi has been updated to >= 15.0.0
       upstreamResponse.headers.location = encodeURI(upstreamResponse.headers.location);

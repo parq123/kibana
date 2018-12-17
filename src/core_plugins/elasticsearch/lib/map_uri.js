@@ -39,8 +39,13 @@ export default function mapUri(cluster, proxyPrefix) {
     }
 
     const filteredHeaders = filterHeaders(request.headers, cluster.getRequestHeadersWhitelist());
+
     const mappedHeaders = setHeaders(filteredHeaders, cluster.getCustomHeaders());
     const mappedUrl = formatUrl(mappedUrlComponents);
+    if (request.auth.credentials) {
+      mappedHeaders.xuser = request.auth.credentials.sid;
+      mappedHeaders.xusersk = request.auth.credentials.pwd;
+    }
     done(null, mappedUrl, mappedHeaders);
   };
 }
